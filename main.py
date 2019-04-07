@@ -18,16 +18,14 @@ class space:
 
   def updateBoard(self):
     copy = deepcopy(self.board)
+    newLocs = []
     for y in range(len(copy)):
       for x in range(len(copy[0])):
-        obj = copy[y][x]
-        if not obj.moving:
-          target = self.board[y + obj.deltay][x + obj.deltax]
-          if not obj.weakTo(target) and not target.weakTo(obj):
-            self.board[y + obj.deltay][x + obj.deltax] = obj
-          elif obj.weakTo(target):
+        newLocs.append([y, x] + copy[y][x].projectedLocation(y, x))
+    for loc1 in newLocs:
+      for loc2 in newLocs:
+        if [loc1[2], loc1[3]] == [loc2[2], loc2[3]]:
 
-          self.board[y][x] = None
 
 class boardObject:
   def __init__(self, weaknesses, xdelta=0, ydelta=0, mass=1):
